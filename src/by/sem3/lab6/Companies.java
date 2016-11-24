@@ -94,7 +94,7 @@ class Companies {
     public List<Company> findActivity(String str, PrintStream ps) {
         List<Company> activity = new ArrayList<>();
         for (Company item : list) {
-            if (str.equalsIgnoreCase(item.getBranch())) {
+            if (str.equalsIgnoreCase(item.getActivity())) {
                 activity.add(item);
             }
         }

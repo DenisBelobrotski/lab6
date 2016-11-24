@@ -24,7 +24,7 @@ class Check {
                     date = LocalDate.parse(strDate, formatter);
                 } catch (DateTimeParseException e) {
                     throw new InputException("Wrong date format! Please, open \"input.csv\" and enter correct info " +
-                            "(use dd.mm.yyyy or mm/dd/yyyy).");
+                            "(use \"dd.mm.yyyy\" or \"mm/dd/yyyy\").");
                 }
                 return date;
             }
@@ -34,7 +34,7 @@ class Check {
                     date = LocalDate.parse(strDate, formatter);
                 } catch (DateTimeParseException e) {
                     throw new InputException("Wrong date format! Please, open \"input.csv\" and enter correct info " +
-                            "(use dd.mm.yyyy or mm/dd/yyyy).");
+                            "(use \"dd.mm.yyyy\" or \"mm/dd/yyyy\").");
                 }
                 return date;
             }

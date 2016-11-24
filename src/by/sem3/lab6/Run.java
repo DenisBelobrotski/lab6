@@ -24,6 +24,7 @@ class Run {
             String buffer = sc.nextLine();
             companies.add(readCompany(buffer.split(";")));
         }
+        sc.close();
     }
 
     private Company readCompany(String[] fields) throws InputException {

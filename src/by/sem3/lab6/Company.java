@@ -37,20 +37,8 @@ class Company {
         this("", "", LocalDate.of(0, 1, 1), "", LocalDate.of(0, 1, 1), 0, "", "", "", "", "", "");
     }
 
-    public String getName() {
-        return name;
-    }
-
     public String getShortTitle() {
         return shortTitle;
-    }
-
-    public LocalDate getDateUpdate() {
-        return dateUpdate;
-    }
-
-    public String getAddress() {
-        return address;
     }
 
     public LocalDate getDateFoundation() {
@@ -61,28 +49,12 @@ class Company {
         return countEmployees;
     }
 
-    public String getAuditor() {
-        return auditor;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
     public String getBranch() {
         return branch;
     }
 
     public String getActivity() {
         return activity;
-    }
-
-    public String getLink() {
-        return link;
     }
 
     @Override
