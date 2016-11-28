@@ -2,6 +2,7 @@ package by.sem3.lab6;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -116,5 +117,10 @@ class Run {
         if (tmpCompanies.size() != 0) {
             requestsWriter.print(tmpCompanies.toString() + "\n");
         }
+    }
+
+    public void processSQLRequests() throws SQLException, IOException {
+        QueryProcessing qp = new QueryProcessing();
+        qp.process(companies);
     }
 }

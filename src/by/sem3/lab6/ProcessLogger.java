@@ -42,10 +42,11 @@ class ProcessLogger {
         }
     }
 
-    private void userMainMenu() throws InputException {
+    private void userMainMenu() throws InputException, SQLException, IOException {
         String menu = "1. Find by short title.\n2. Find by branch. \n3. Find by activity. \n4. Find by date of " +
-                "foundation (fromDate, toDate)(excluding these dates)(Formats: \"dd.mm.yyyy\" or \"mm/dd/yyyy\"). \n5. Find by count of " +
-                "employees (from,to).\n6. Exit program!\n";
+                "foundation (fromDate, toDate)(excluding these dates)(Formats: \"dd.mm.yyyy\" or \"mm/dd/yyyy\"). " +
+                "\n5. Find by count of employees (from,to).\n6. Read SQL requests(Please, write requests in " +
+                "\"SQLRequests.txt\").\n7. Exit program.\n";
         System.out.println(menu);
         byte choice;
         do {
@@ -78,15 +79,20 @@ class ProcessLogger {
                     break;
                 }
                 case 6: {
+                    processQuery();
+                    System.out.println(menu);
+                    break;
+                }
+                case 7: {
                     System.out.println("\nProgram has been already closed.");
                     break;
                 }
                 default: {
-                    System.out.println("Incorrect choice. Try again.");
+                    System.out.println("\nIncorrect choice. Try again.\n");
                     break;
                 }
             }
-        } while (choice != 6);
+        } while (choice != 7);
     }
 
     private void findShortTitle() {
@@ -117,12 +123,18 @@ class ProcessLogger {
     }
 
     private void findAmountOfEmployees() throws InputException {
-
         System.out.print("\nEnter amount of employees of company:\nfrom ");
         int fromCount = consoleScanner.nextInt();
         System.out.print("to ");
         int toCount = consoleScanner.nextInt();
         run.printSearchResultOfCountOfEmployees(fromCount, toCount);
         System.out.println("\nYou can find this company in \"requests.txt\"\n");
+    }
+
+    private void processQuery() throws SQLException, IOException {
+        logWriter.write("\"SQLRequests.txt\" processing...\n");
+        run.processSQLRequests();
+        System.out.println("\nSQL requests complete! You can find output files in \"Resources/SQLRequests\".\n");
+        logWriter.write("SQL requests complete!\n");
     }
 }

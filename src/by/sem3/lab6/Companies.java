@@ -51,7 +51,7 @@ class Companies {
         for (Company item : list) {
             sb.append(item.toJSONString()).append("\n");
         }
-        sb.append("\n\t]\n");
+        sb.append("\t]\n");
         sb.append("}\n");
         sb.deleteCharAt(sb.lastIndexOf(","));
         return sb.toString();
@@ -135,4 +135,138 @@ class Companies {
         return countOfEmployees;
     }
 
+    public String toXMLForQuery(List<String> fieldsList) throws SQLException {
+        String head = getClassName(Companies.class.getName());
+        StringBuilder sb = new StringBuilder();
+        sb.append("<").append(head).append(">\n");
+        if (isOutAllFields(fieldsList)) {
+            for (Company item : list) {
+                sb.append(item.toXMLString()).append("\n");
+            }
+        } else {
+            for (Company item : list) {
+                sb.append(item.toXMLForQuery(fieldsList)).append("\n");
+            }
+        }
+        sb.append("</").append(head).append(">");
+        return sb.toString();
+    }
+
+    public String toJSONForQuery(List<String> fieldsList) throws SQLException {
+        StringBuilder sb = new StringBuilder();
+        String head = getClassName(Companies.class.getName());
+        sb.append("{\n\t\"").append(head).append("\": [\n");
+        if (isOutAllFields(fieldsList)) {
+            for (Company item : list) {
+                sb.append(item.toJSONString()).append("\n");
+            }
+            sb.deleteCharAt(sb.lastIndexOf(","));
+        } else {
+            for (Company item : list) {
+                sb.append(item.toJSONForQuery(fieldsList)).append("\n");
+            }
+            sb.deleteCharAt(sb.lastIndexOf(","));
+        }
+        sb.append("\t]\n");
+        sb.append("}\n");
+        return sb.toString();
+    }
+
+    public String toXMLForQueryFromBounds(List<String> fieldsList, String searchingField, int lowerBound,
+                                          int upperBound) throws SQLException {
+        String head = getClassName(Companies.class.getName());
+        StringBuilder sb = new StringBuilder();
+        sb.append("<").append(head).append(">\n");
+        if (isOutAllFields(fieldsList)) {
+            for (Company item : list) {
+                if (item.isVariableInBounds(searchingField, lowerBound, upperBound)) {
+                    sb.append(item.toXMLString()).append("\n");
+                }
+            }
+        } else {
+            for (Company item : list) {
+                if (item.isVariableInBounds(searchingField, lowerBound, upperBound)) {
+                    sb.append(item.toXMLForQuery(fieldsList)).append("\n");
+                }
+            }
+        }
+        sb.append("</").append(head).append(">");
+        return sb.toString();
+    }
+
+    public String toJSONForQueryFromBounds(List<String> fieldsList, String searchingField, int lowerBound,
+                                           int upperBound) throws SQLException {
+        StringBuilder sb = new StringBuilder();
+        String head = getClassName(Companies.class.getName());
+        sb.append("{\n\t\"").append(head).append("\": [\n");
+        if (isOutAllFields(fieldsList)) {
+            for (Company item : list) {
+                if (item.isVariableInBounds(searchingField, lowerBound, upperBound)) {
+                    sb.append(item.toJSONString()).append("\n");
+                }
+            }
+            sb.deleteCharAt(sb.lastIndexOf(","));
+        } else {
+            for (Company item : list) {
+                if (item.isVariableInBounds(searchingField, lowerBound, upperBound)) {
+                    sb.append(item.toJSONForQuery(fieldsList)).append("\n");
+                }
+            }
+            sb.deleteCharAt(sb.lastIndexOf(","));
+        }
+        sb.append("\t]\n");
+        sb.append("}\n");
+        return sb.toString();
+    }
+
+    public String toXMLForQueryFromQuotes(List<String> fieldsList, String searchingField, String variable)
+            throws SQLException {
+        String head = getClassName(Companies.class.getName());
+        StringBuilder sb = new StringBuilder();
+        sb.append("<").append(head).append(">\n");
+        if (isOutAllFields(fieldsList)) {
+            for (Company item : list) {
+                if (item.isVariableMatchesField(searchingField, variable)) {
+                    sb.append(item.toXMLString()).append("\n");
+                }
+            }
+        } else {
+            for (Company item : list) {
+                if (item.isVariableMatchesField(searchingField, variable)) {
+                    sb.append(item.toXMLForQuery(fieldsList)).append("\n");
+                }
+            }
+        }
+        sb.append("</").append(head).append(">");
+        return sb.toString();
+    }
+
+    public String toJSONForQueryFromQuotes(List<String> fieldsList, String searchingField, String variable)
+            throws SQLException {
+        StringBuilder sb = new StringBuilder();
+        String head = getClassName(Companies.class.getName());
+        sb.append("{\n\t\"").append(head).append("\": [\n");
+        if (isOutAllFields(fieldsList)) {
+            for (Company item : list) {
+                if (item.isVariableMatchesField(searchingField, variable)) {
+                    sb.append(item.toJSONString()).append("\n");
+                }
+            }
+            sb.deleteCharAt(sb.lastIndexOf(","));
+        } else {
+            for (Company item : list) {
+                if (item.isVariableMatchesField(searchingField, variable)) {
+                    sb.append(item.toJSONForQuery(fieldsList)).append("\n");
+                }
+            }
+            sb.deleteCharAt(sb.lastIndexOf(","));
+        }
+        sb.append("\t]\n");
+        sb.append("}\n");
+        return sb.toString();
+    }
+
+    private boolean isOutAllFields(List<String> fieldsList) {
+        return fieldsList.size() == 1 && fieldsList.get(0).equals("*");
+    }
 }

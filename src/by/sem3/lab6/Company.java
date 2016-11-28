@@ -3,6 +3,7 @@ package by.sem3.lab6;
 import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.util.Formatter;
+import java.util.List;
 
 class Company {
     private String name;
@@ -111,5 +112,88 @@ class Company {
             sb.append(name.charAt(i));
         }
         return sb.reverse().toString();
+    }
+
+    public String toXMLForQuery(List<String> fieldsList) throws SQLException {
+        String head = getClassName(Company.class.getName());
+        Field[] fields = Company.class.getDeclaredFields();
+        boolean isIncorrectInfo = true;
+        StringBuilder sb = new StringBuilder();
+        sb.append("\t<").append(head).append(">\n");
+        try {
+            for (Field item : fields) {
+                String name = item.getName();
+                if (fieldsList.contains(name.toLowerCase())) {
+                    sb.append("\t\t<").append(name).append(">").append(item.get(this)).append("</").append(name).append(">\n");
+                    isIncorrectInfo = false;
+                }
+            }
+        } catch (IllegalAccessException e) {
+            System.out.println("Illegal Access Exception.");
+        }
+        if (isIncorrectInfo) {
+            throw new SQLException("Information on your request not found!");
+        }
+        sb.append("\t</").append(head).append(">");
+        return sb.toString();
+    }
+
+    public String toJSONForQuery(List<String> fieldsList) throws SQLException {
+        Field[] fields = Company.class.getDeclaredFields();
+        StringBuilder sb = new StringBuilder();
+        boolean isIncorrectInfo = true;
+        sb.append("\t\t{\n");
+        try {
+            for (Field item : fields) {
+                String name = item.getName();
+                if (fieldsList.contains(name.toLowerCase())) {
+                    sb.append("\t\t\t\"").append(name).append("\"").append(": ");
+                    isIncorrectInfo = false;
+                    if (!(item.get(this) instanceof Integer)) {
+                        sb.append("\"").append(item.get(this)).append("\",\n");
+                    } else {
+                        sb.append(item.get(this)).append(",\n");
+                    }
+                }
+            }
+        } catch (IllegalAccessException e) {
+            System.out.println("Illegal Access Exception.");
+        }
+        if (isIncorrectInfo) {
+            throw new SQLException("Information on your request not found!");
+        }
+        sb.deleteCharAt(sb.lastIndexOf(","));
+        sb.append("\t\t},");
+        return sb.toString();
+    }
+
+    public boolean isVariableInBounds(String searchingField, int lowerBound, int upperBound) {
+        Field[] fields = Company.class.getDeclaredFields();
+        try {
+            for (Field item : fields) {
+                if (item.getName().toLowerCase().equals(searchingField) && (Integer) item.get(this) > lowerBound &&
+                        (Integer) item.get(this) < upperBound) {
+                    return true;
+                }
+            }
+        } catch (IllegalAccessException e) {
+            System.out.println("Illegal Access Exception.");
+        }
+        return false;
+    }
+
+    public boolean isVariableMatchesField(String searchingField, String variable) {
+        Field[] fields = Company.class.getDeclaredFields();
+        try {
+            for (Field item : fields) {
+                if (item.getName().toLowerCase().equals(searchingField) &&
+                        ((String) item.get(this)).toLowerCase().equals(variable)) {
+                    return true;
+                }
+            }
+        } catch (IllegalAccessException e) {
+            System.out.println("Illegal Access Exception.");
+        }
+        return false;
     }
 }

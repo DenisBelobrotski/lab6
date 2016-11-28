@@ -66,7 +66,9 @@ class Check {
 
     public static String checkPhone(String phone) throws InputException {
         if (phone.length() != 0) {
-            Pattern pattern = Pattern.compile("^\\+[ ]?([1-9](\\d){0,2})([ ])?([(]?)([1-9](\\d){1,3})([)]?)([ ]?)(([1-9](\\d){2}[ -]?(\\d){2}[ -]?(\\d){2})|([1-9](\\d){1}[ -]?(\\d){2}[ -]?(\\d){3})|([1-9](\\d){2}([ -]?)(\\d){4})|([1-9](\\d){3}[ -]?(\\d){3}))$");
+            Pattern pattern = Pattern.compile("^\\+[ ]?([1-9](\\d){0,2})([ ])?([(]?)([1-9](\\d){1,3})([)]?)([ ]?)" +
+                    "(([1-9](\\d){2}[ -]?(\\d){2}[ -]?(\\d){2})|([1-9](\\d){1}[ -]?(\\d){2}[ -]?(\\d){3})|([1-9](\\d)" +
+                    "{2}([ -]?)(\\d){4})|([1-9](\\d){3}[ -]?(\\d){3}))$");
             Matcher matcher = pattern.matcher(phone);
             if (!matcher.matches()) {
                 throw new InputException("Wrong phone number! Please, open \"input.csv\" and enter correct info.");
@@ -109,5 +111,19 @@ class Check {
             }
         }
         return link;
+    }
+
+    public static String checkQuery(String query) throws SQLException {
+        if (query.length() != 0) {
+            Pattern pattern = Pattern.compile("((select[ ]+(\\*|[\\w, ]+)[ ]+from[ ]+\\w+[ ]+where[ ]+\\w+[ ]+between" +
+                            "[ ]+\\d+[ ]+and[ ]+\\d+[ ]*;[ ]*)|(select[ ]+(\\*|[\\w, ]+)[ ]+from[ ]+\\w+[ ]*;[ ]*)|" +
+                            "(select[ ]+(\\*|[\\w, ]+)[ ]+from[ ]+\\w+[ ]+where[ ]+\\w+[ ]*=[ ]*'\\w+'[ ]*;[ ]*))",
+                    Pattern.CASE_INSENSITIVE);
+            Matcher matcher = pattern.matcher(query);
+            if (!matcher.matches()) {
+                throw new SQLException();
+            }
+        }
+        return query;
     }
 }
