@@ -19,7 +19,9 @@ class Company {
     private String activity;
     private String link;
 
-    public Company(String name, String shortTitle, LocalDate dateUpdate, String address, LocalDate dateFoundation, int countEmployees, String auditor, String phone, String email, String branch, String activity, String link) {
+    public Company(String name, String shortTitle, LocalDate dateUpdate, String address, LocalDate dateFoundation,
+                   int countEmployees, String auditor, String phone, String email, String branch, String activity,
+                   String link) {
         this.name = name;
         this.shortTitle = shortTitle;
         this.dateUpdate = dateUpdate;
