@@ -1,5 +1,6 @@
 package by.sem3.lab6;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Date;
@@ -79,7 +80,12 @@ class ProcessLogger {
                     break;
                 }
                 case 6: {
+                    logWriter.write("Cleaning directory \"SQLRequests\"...\n");
+                    clearSQLRequests();
+                    logWriter.write("Cleaning complete!\n");
+                    logWriter.write("Writing SQL requests...\n");
                     processQuery();
+                    logWriter.write("Writing complete!\n");
                     System.out.println(menu);
                     break;
                 }
@@ -136,5 +142,25 @@ class ProcessLogger {
         run.processSQLRequests();
         System.out.println("\nSQL requests complete! You can find output files in \"Resources/SQLRequests\".\n");
         logWriter.write("SQL requests complete!\n");
+    }
+
+    private void clearDirectory(String path) throws SQLException{
+        File file = new File(path);
+        if(!file.exists())
+            throw new SQLException("Directory \"" + path + "\" does not exist.");
+        if(file.isDirectory())
+        {
+            for(File f : file.listFiles())
+                f.delete();
+        }
+        else
+        {
+            throw new SQLException("\"" + path + "\" is not directory.");
+        }
+    }
+
+    private void clearSQLRequests() throws SQLException {
+        clearDirectory("Resources/SQLRequests/JSON");
+        clearDirectory("Resources/SQLRequests/XML");
     }
 }
